@@ -1,3 +1,4 @@
+[![wtfpl logo](http://www.wtfpl.net/wp-content/uploads/2012/12/wtfpl-badge-4.png)](http://www.wtfpl.net)
 # Failsafe Liquibase Locking with Kubernetes Support
 Alternate Liquibase Locking solution which makes able an application to recover from a terminated Schema update using Kubernetes API.
 
