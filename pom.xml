@@ -66,5 +66,18 @@
 
         </plugins>
     </build>
+    <distributionManagement>
+		<repository>
+			<id>artifactory</id>
+			<name>cd3ec14070be-releases</name>
+			<url>http://gitlab.szintezis-net.local:8081/artifactory/libs-release-local</url>
+		</repository>
+		<snapshotRepository>
+			<id>artifactory</id>
+			<name>cd3ec14070be-releases</name>
+			<url>http://gitlab.szintezis-net.local:8081/artifactory/libs-snapshot-local</url>
+		</snapshotRepository>
+	</distributionManagement>
+
 
 </project>
