@@ -6,10 +6,12 @@ import io.kubernetes.client.Configuration;
 import io.kubernetes.client.apis.CoreV1Api;
 import io.kubernetes.client.models.V1Pod;
 import io.kubernetes.client.util.Config;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import java.io.IOException;
+import java.util.stream.Collectors;
 
 public class KubernetesConnector {
 
@@ -32,14 +34,19 @@ public class KubernetesConnector {
     private KubernetesConnector() {
         podName = System.getenv().get("POD_NAME");
         podNamespace = System.getenv().get("POD_NAMESPACE");
-        connected = connect();
+        if(StringUtils.isNotBlank(podName)&& StringUtils.isNotBlank(podNamespace)){
+            connected = connect();
+        } else {
+            connected = false;
+            LOG.debug("POD_NAME or POD_NAMESPACE is not configured, Liquibase - Kubernetes integration disabled");
+        }
     }
 
     private boolean connect() {
         try {
-            ApiClient client = Config.fromCluster();
-
-            Configuration.setDefaultApiClient(client);
+            ApiClient client = Config.defaultClient();
+            LOG.trace("BasePath: "+client.getBasePath());
+            LOG.trace("Authentication: "+client.getAuthentications().entrySet().stream().map(entry->entry.getKey()+":"+entry.getValue()).collect(Collectors.joining(", ")));
 
             CoreV1Api api = new CoreV1Api();
             LOG.trace("Reading pod status, Pod name: " + podName + " Pod namespace: " + podNamespace);
