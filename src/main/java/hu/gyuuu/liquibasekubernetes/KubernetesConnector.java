@@ -44,7 +44,11 @@ public class KubernetesConnector {
 
     private boolean connect() {
         try {
-            ApiClient client = Config.defaultClient();
+            LOG.trace("Create client with from cluster configuration");
+            ApiClient client = Config.fromCluster();
+
+            Configuration.setDefaultApiClient(client);
+
             LOG.trace("BasePath: "+client.getBasePath());
             LOG.trace("Authentication: "+client.getAuthentications().entrySet().stream().map(entry->entry.getKey()+":"+entry.getValue()).collect(Collectors.joining(", ")));
 
