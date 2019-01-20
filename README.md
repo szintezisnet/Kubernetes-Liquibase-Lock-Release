@@ -63,3 +63,18 @@ env:
     fieldRef:
       fieldPath: metadata.namespace
 ```
+
+##RBAC config
+
+If you use RBAC in your cluster the following permissions are required for the pod's Service Account 
+
+```yaml
+kind: Role
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: reader-role
+rules:
+  - apiGroups: [""]
+    resources: ["*"]
+    verbs: ["get", "watch", "list"]
+```
