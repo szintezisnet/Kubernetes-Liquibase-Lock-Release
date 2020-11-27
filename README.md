@@ -49,7 +49,7 @@ Two environment variables are required:
 - POD_NAME
 - POD_NAMESPACE
 
-These can be provided by utilizing [Kubernetes Donward API](https://kubernetes.io/docs/tasks/inject-data-application/downward-api-volume-expose-pod-information/#capabilities-of-the-downward-api)
+These can be provided by utilizing [Kubernetes Downward API](https://kubernetes.io/docs/tasks/inject-data-application/downward-api-volume-expose-pod-information/#capabilities-of-the-downward-api)
 The required [environment variable configuration](https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/) looks like this:
 
 ```yaml
@@ -64,7 +64,7 @@ env:
       fieldPath: metadata.namespace
 ```
 
-##RBAC config
+## RBAC config
 
 If you use RBAC in your cluster the following permissions are required for the pod's Service Account 
 
@@ -78,3 +78,19 @@ rules:
     resources: ["*"]
     verbs: ["get", "watch", "list"]
 ```
+
+### OpenShift RBAC config
+
+In the OpenShift, you can grant necessary permissions as follows: 
+
+```
+oc policy add-role-to-user view -z default
+```
+
+(when in the necessary project, i.e. after `oc project <project-name>` command). Another alternative is: 
+
+```
+oc policy add-role-to-user view system:serviceaccounts:<project-name>:<account-name>
+```
+
+Usually, Service Account that starts your pods, has name `default`, but you should check if it's the case!
